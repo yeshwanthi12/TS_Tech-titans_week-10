@@ -1,0 +1,149 @@
+import java.io.*;  
+import javax.servlet.*;  
+import javax.servlet.http.*;  
+  
+  
+public class FirstServlet extends HttpServlet {  
+  
+public void doGet(HttpServletRequest request, HttpServletResponse response){  
+        try{  
+  
+        response.setContentType("text/html");  
+        PrintWriter out = response.getWriter();  
+          
+        String n=request.getParameter("email");  
+        out.print("Welcome "+n+" ");  
+        
+        String n1=request.getParameter("psw");  
+        out.print("your password is "+n1+" ");  
+        
+        String n2=request.getParameter("psw-repeat");  
+        out.print("your password is "+n2+" ");  
+          
+        HttpSession session=request.getSession();  
+        session.setAttribute("email",n);  
+        
+        HttpSession session1=request.getSession();  
+        session1.setAttribute("psw",n1);  
+        
+        HttpSession session2=request.getSession();  
+        session2.setAttribute("psw-repeat",n2);  
+  
+        out.print("<a href='servlet2'>visit</a>");  
+                  
+        out.close();  
+  
+                }catch(Exception e){System.out.println(e);}  
+    }  
+  
+}  
+
+
+
+
+
+
+
+
+import java.io.*;  
+import javax.servlet.*;  
+import javax.servlet.http.*;  
+  
+public class SecondServlet extends HttpServlet {  
+  
+public void doGet(HttpServletRequest request, HttpServletResponse response)  {
+        try{  
+  
+        response.setContentType("text/html");  
+        PrintWriter out = response.getWriter();  
+          
+        HttpSession session=request.getSession(false);  
+        String n=(String)session.getAttribute("email");  
+        out.print("Hello "+n+" "); 
+        
+        HttpSession session1=request.getSession(false);  
+        String n1=(String)session.getAttribute("psw");  
+        out.print("your password is "+n1+" "); 
+        
+        HttpSession session2=request.getSession(false);  
+        String n2=(String)session.getAttribute("psw-repeat");  
+        out.print("your password is "+n2+" "); 
+  
+        out.close();  
+  
+                }catch(Exception e){System.out.println(e);}  
+    }  
+      
+  
+}  
+
+
+
+
+
+
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
+  <display-name>registrationform</display-name>
+  
+<servlet>  
+<servlet-name>s1</servlet-name>  
+<servlet-class>FirstServlet</servlet-class>  
+</servlet>  
+  
+<servlet-mapping>  
+<servlet-name>s1</servlet-name>  
+<url-pattern>/servlet1</url-pattern>  
+</servlet-mapping>  
+  
+<servlet>  
+<servlet-name>s2</servlet-name>  
+<servlet-class>SecondServlet</servlet-class>  
+</servlet>  
+  
+<servlet-mapping>  
+<servlet-name>s2</servlet-name>  
+<url-pattern>/servlet2</url-pattern>  
+</servlet-mapping>  
+  
+</web-app>  
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<form action="servlet1">
+  <div class="container">
+    <h1>Register</h1>
+    <p>Please fill in this form to create an account.</p>
+    <hr>
+
+    <label for="email"><b>Email</b></label>
+    <input type="text" placeholder="Enter Email" name="email" required><br><br>
+
+    <label for="psw"><b>Password</b></label>
+    <input type="password" placeholder="Enter Password" name="psw" required><br><br>
+
+    <label for="psw-repeat"><b>Repeat Password</b></label>
+    <input type="password" placeholder="Repeat Password" name="psw-repeat" required><br><br>
+    <hr>
+
+    
+    <button type="submit" class="registerbtn">Register</button>
+  </div>
+
+  
+</form>
+</body>
+</html>

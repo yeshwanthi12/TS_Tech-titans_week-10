@@ -1,0 +1,72 @@
+import java.io.*;
+import javax.servlet.*;
+import javax.servlet.http.*;
+
+public class MyServlet extends HttpServlet 
+{    
+    private String mymsg;
+    public void init() throws ServletException 
+    {      
+       mymsg = "Http Servlet Demo";   
+    }
+    public void doGet(HttpServletRequest request, 
+        HttpServletResponse response) throws ServletException, 
+        IOException 
+    {            
+        // Setting up the content type of web page      
+        response.setContentType("text/html");
+        // Writing the message on the web page      
+        PrintWriter out = response.getWriter();      
+        out.println("<h1>" + mymsg + "</h1>");      
+        out.println("<p>" + "Hello Friends!" + "</p>");   
+    }
+    public void destroy() 
+    {      
+       // Leaving empty. Use this if you want to perform  
+       //something at the end of Servlet life cycle.   
+    }
+}
+
+
+
+
+
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
+  <display-name>demo2</display-name>
+  
+
+<welcome-file-list>
+<welcome-file>index.html</welcome-file>
+</welcome-file-list>
+
+<servlet>
+<servlet-name>Serv</servlet-name>
+<servlet-class>MyServlet</servlet-class>
+</servlet>
+
+<servlet-mapping>
+<servlet-name>Serv</servlet-name>
+<url-pattern>/welcome</url-pattern>
+</servlet-mapping>
+
+
+</web-app>
+
+
+
+
+
+
+
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Http Servlet Demo</title>
+</head>
+<body>
+<a href="welcome">Click to call Servlet</a>
+</body>
+</html>

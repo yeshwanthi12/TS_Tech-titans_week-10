@@ -1,0 +1,45 @@
+import java.io.IOException;
+import java.io.PrintWriter;
+ 
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+ 
+public class SecondServlet extends HttpServlet {
+    
+   
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try
+        {    
+        String name = request.getParameter("userName");
+        response.setContentType("text/html");
+        PrintWriter writer =  response.getWriter();
+        writer.println("<h3><font color=green>Hi "+name+"</font></h3>");
+        writer.println("<h4><font color=black>Redirection was successful</font></h4>");
+        writer.close();
+        }
+        catch(Exception exception)
+        {
+        exception.printStackTrace();    
+        }    
+    }
+}
+
+
+
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="4.0">
+  <display-name>ServletSendRedirect2</display-name>
+  <servlet>
+    <servlet-name>Serve</servlet-name>
+    <servlet-class>SecondServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Serve</servlet-name>
+    <url-pattern>/redirect</url-pattern>
+  </servlet-mapping>
+</web-app>

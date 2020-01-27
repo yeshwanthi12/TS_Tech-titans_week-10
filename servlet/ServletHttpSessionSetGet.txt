@@ -1,0 +1,224 @@
+import java.io.PrintWriter;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+ 
+public class GetAttributeServlet extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+   
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) {
+    try
+    {
+      
+          HttpSession session =  request.getSession();
+            String Name = (String) session.getAttribute("NAME");
+            String Email = (String)session.getAttribute("EMAIL");
+            String Telephone = (String)session.getAttribute("PHONE");
+            String  Age = (String)session.getAttribute("AGE");
+            String Gender = (String)session.getAttribute("GENDER");    
+            
+            response.setContentType("text/html");
+            PrintWriter writer =  response.getWriter();
+            writer.println("<h3><font color=green>Entered Details :</font></h3>");
+            writer.println("Name  : "+Name+"<br>");
+            writer.println("Email : "+Email+"<br>");
+            writer.println("Phone : "+Telephone+"<br>");
+            writer.println("Age   : "+Age+"<br>");
+            writer.println("Sex   : "+Gender+"<br>");
+        
+        writer.close();
+        
+    }
+    catch(Exception exception)
+    {
+        exception.printStackTrace();    
+    }
+    }
+ 
+ 
+}
+
+
+
+
+
+
+
+import java.io.PrintWriter;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+ 
+public class IndividualTestServlet extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+   
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) {
+        
+        try
+        {
+                HttpSession session =  request.getSession();
+                String Name = (String)session.getAttribute("NAME");
+                String Email = (String)session.getAttribute("EMAIL");
+                String Telephone = (String)session.getAttribute("PHONE");
+                String  Age = (String)session.getAttribute("AGE");
+                String Gender = (String)session.getAttribute("GENDER");    
+                
+                response.setContentType("text/html");
+                PrintWriter writer =  response.getWriter();
+                writer.println("<h3><font color=green>Entered Details :</font></h3>");
+                writer.println("Name  : "+Name+"<br>");
+                writer.println("Email : "+Email+"<br>");
+                writer.println("Phone : "+Telephone+"<br>");
+                writer.println("Age   : "+Age+"<br>");
+                writer.println("Sex   : "+Gender+"<br>");
+        }
+        catch(Exception exception)
+        {
+            exception.printStackTrace();    
+        }
+                
+    }
+ 
+}
+
+
+
+
+
+
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+ 
+public class SetAttributeServlet extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+    String Name = "";
+    String Email = "";
+    String Telephone = "";
+    String Age = "";
+    String Gender = "";
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) {
+        try
+        {
+            Name = request.getParameter("name");
+            Email = request.getParameter("mail");
+            Telephone = request.getParameter("phone");
+            Age = request.getParameter("age");
+            Gender = request.getParameter("sex");
+       
+            setAttributes(request);
+            System.out.println("set success");
+            RequestDispatcher rd = request.getRequestDispatcher("/getAttributes");
+            rd.forward(request, response);
+        }
+        catch(Exception exception)
+        {
+            exception.printStackTrace();    
+        }
+    }
+public void setAttributes(HttpServletRequest request)
+{
+    HttpSession session =  request.getSession();
+    session.setAttribute("NAME",Name);
+    session.setAttribute("EMAIL",Email);
+    session.setAttribute("PHONE",Telephone);
+    session.setAttribute("AGE",Age);
+    session.setAttribute("GENDER",Gender);
+}
+ 
+}
+
+
+
+
+
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
+  <display-name>ServletHttpSessionSetGet</display-name>
+  <servlet>
+    <servlet-name>Servlet1</servlet-name>
+    <servlet-class>SetAttributeServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>Servlet2</servlet-name>
+    <servlet-class>GetAttributeServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>Servlet3</servlet-name>
+    <servlet-class>IndividualTestServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Servlet1</servlet-name>
+    <url-pattern>/hello</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Servlet2</servlet-name>
+    <url-pattern>/getAttributes</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Servlet3</servlet-name>
+    <url-pattern>/indServlet</url-pattern>
+  </servlet-mapping>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+  </welcome-file-list>
+</web-app>
+
+
+
+
+
+
+
+
+<html>
+    <head>
+        <title>HttpSession</title>
+    </head>
+    <body>
+<form action="hello" method="post">
+<table>
+<tr>
+<td>
+Enter Your name :
+</td>
+<td colspan="2" align="center"><input type="text" name="name" value=""></td>
+</tr>
+<tr>
+<td>
+Email Address :
+</td>
+<td colspan="2" align="center"><input type="text" name="mail" value=""></td>
+</tr>
+<tr>
+<td>
+Phone Number :
+</td>
+<td colspan="2" align="center"><input type="text" name="phone" value=""></td>
+</tr>
+<tr>
+<td>
+Age :
+</td>
+<td colspan="2" align="center"><input type="text" name="age" value=""></td>
+</tr>
+<tr>
+<td>
+Gender :
+</td>
+<td colspan="2" align="center"><input type="text" name="sex" value=""></td>
+</tr>
+<tr>
+<td colspan="2" align="center"><input type="submit" value="Submit"></td>
+</tr>
+</table>
+</form>
+    </body>
+</html>

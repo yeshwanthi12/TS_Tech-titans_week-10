@@ -1,0 +1,81 @@
+
+import java.io.*;
+import javax.servlet.*;
+import javax.servlet.http.*;
+public class ShoppingCart extends HttpServlet    
+{
+  public void service(HttpServletRequest req,HttpServletResponse res) throws ServletException, IOException   
+  {
+    String str1 = req.getParameter("item");       // item name
+    String str2 = req.getParameter("qty");        // item quantity
+    String str3 = req.getParameter("add");        // submit button by name add
+    String str4 = req.getParameter("list");       // submit button by name list
+
+    res.setContentType("text/html");
+    PrintWriter out = res.getWriter();
+						
+    if(str3 != null)    
+    {    
+      Cookie c1 = new Cookie(str1, str2);                                
+      res.addCookie(c1);                                                        
+      res.sendRedirect("index.html"); 
+    }			                                                         
+    else if(str4 != null)  
+    { 
+      Cookie clientCookies[] = req.getCookies();       
+      for( int i = 0; i < clientCookies.length; i++)     
+      {
+        out.print("<B>" + clientCookies[i].getName() + " : " + clientCookies[i].getValue() + "</B><BR>");
+      }                
+    }
+    out.close( ) ;
+  }        
+} 
+
+
+
+
+
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="4.0">
+  <display-name>ServletCookieShoppingCart</display-name>
+  <servlet>
+    <servlet-name>DoShopping</servlet-name>
+    <servlet-class>ShoppingCart</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DoShopping</servlet-name>
+    <url-pattern>/shop</url-pattern>
+  </servlet-mapping>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+  </welcome-file-list>
+</web-app>
+
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<h3>Cookie Example through Shopping Cart</h3>
+<body>
+<form method="get" action="shop">
+  
+  Enter Item Name <input type="text" name="item"><br>
+  Enter Item Quantity <input type="text" name="qty"><br>
+  <input type="submit" value="Add Cookie" name="add">
+  <input type="submit" value="List Cookies" name="list">
+ 
+</form>
+</body>
+</body>
+</html>

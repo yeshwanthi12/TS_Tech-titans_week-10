@@ -1,0 +1,106 @@
+import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+ 
+public class FirstServlet extends HttpServlet {
+ private static final long serialVersionUID = 1L;
+ 
+ protected void doPost(HttpServletRequest request, HttpServletResponse response) {
+ try
+ { 
+ String name = request.getParameter("name");
+ response.setContentType("text/html");
+ PrintWriter writer = response.getWriter();
+ writer.println("<h1><font color=blue>Hi "+name+"</font></h1>");
+ writer.println("<h3><font color=blue>I am from FirstServlet</font></h3>");
+ RequestDispatcher reqDispatch = request.getRequestDispatcher("/includeRequest"); 
+ reqDispatch.include(request, response);
+ writer.close();
+ }
+ catch(Exception exception)
+ {
+ exception.printStackTrace(); 
+ }
+ }//end doPost
+}//end cl
+
+
+
+
+
+
+
+import java.io.PrintWriter;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+ 
+public class SecondServlet extends HttpServlet {
+
+ protected void doPost(HttpServletRequest request, HttpServletResponse response) {
+ try
+ { 
+ String name = request.getParameter("name");
+ response.setContentType("text/html");
+ PrintWriter writer = response.getWriter();
+ writer.println("<h1><font color=green>Hi "+name+"</font></h1>");
+ writer.println("<h3><font color=green>I am from SecondServlet</font></h3>");
+ writer.close();
+ }
+ catch(Exception exception)
+ {
+ exception.printStackTrace(); 
+ } 
+ }//end doPost
+}//end class
+
+
+
+
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="4.0">
+  <display-name>sss</display-name>
+  <servlet>
+    <servlet-name>first</servlet-name>
+    <servlet-class>FirstServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>second</servlet-name>
+    <servlet-class>SecondServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>first</servlet-name>
+    <url-pattern>/formRequest</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>second</servlet-name>
+    <url-pattern>/includeRequest</url-pattern>
+  </servlet-mapping>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+  </welcome-file-list>
+</web-app>
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<form action="formRequest" method="post">  
+Enter first name<input type="text" name="name"> 
+<input type="submit" value="login">  
+</form>
+</body>
+</html>

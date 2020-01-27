@@ -1,0 +1,66 @@
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+ 
+public class RedirectServlet extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+  
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) {
+        try
+        {    
+        String name = request.getParameter("name");
+        response.sendRedirect("http://localhost:8081/ServletSendRedirect2/redirect?userName="+name);
+       // response.sendRedirect("https://www.talentsculptors.com");
+        }
+        catch(Exception exception)
+        {
+        exception.printStackTrace();    
+        }
+    }
+ 
+}
+
+
+
+
+
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="4.0">
+  <display-name>ServletSendRedirect</display-name>
+  <servlet>
+    <servlet-name>Servlet</servlet-name>
+    <servlet-class>RedirectServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Servlet</servlet-name>
+    <url-pattern>/formRequest</url-pattern>
+  </servlet-mapping>
+</web-app>
+
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Send Redirect App</title>
+</head>
+<body>
+<form action="formRequest" method="post">
+<table>
+<tr>
+Enter Your name :
+<td colspan="2" align="center"><input type="text" name="name" value=""></td>
+</tr>
+<tr>
+<td colspan="2" align="center"><input type="submit" value="Redirect"></td>
+</tr>
+</table>
+</form>
+</body>
+</html>

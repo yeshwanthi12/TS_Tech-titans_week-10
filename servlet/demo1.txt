@@ -1,0 +1,81 @@
+import java.io.*;
+import javax.servlet.*;
+import javax.servlet.http.*;
+ 
+public class LoginCheck extends HttpServlet {
+  
+ 
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    try
+    {
+    String input_value_one = request.getParameter("nam") ;    
+    String input_value_two = request.getParameter("pass") ;    
+    
+    response.setContentType("text/html");
+    PrintWriter writer =  response.getWriter();
+    if(input_value_one.equals("Jinping")&&input_value_two.equals("abc")) {
+    writer.println("<h1 style=\"color:Tomato;\">Welcome! :</h1>");
+    writer.println("<h3 style=\"color:blue;\">to India</h3>"+input_value_one+"<BR>");
+  //  writer.println("<h3 style=\"color:blue;\">Password Value Is :</h3>"+input_value_two+"<BR>");
+    }
+    else {
+    	writer.println("<h3 style=\"color:green;\">username or password is wrong</h3>");
+    }
+    
+    writer.close();
+    }
+    catch(Exception exception)
+    {
+        exception.printStackTrace();    
+    }
+    }
+}
+
+
+
+
+
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
+  <display-name>demo1</display-name>
+  <servlet>
+  <servlet-name>stride</servlet-name>
+  <servlet-class>LoginCheck</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  <servlet-name>stride</servlet-name>
+  <url-pattern>/heyBuddy</url-pattern>
+  </servlet-mapping>
+</web-app>
+
+
+
+
+
+
+
+
+<html>
+<head>
+
+<body>
+<form action="heyBuddy" method="post">
+<table>
+<tr>
+<td>Text Box</td>
+<td><input type="text" name="nam"/></td>
+</tr>
+<tr>
+<td>Password Box:</td>
+<td><input type="password" name="pass"/></td>
+</tr>
+<tr>
+<td colspan="2" align="center">
+<input type="submit" value="login"></td>
+</tr>
+</table>
+</form>
+</body>
+</html>

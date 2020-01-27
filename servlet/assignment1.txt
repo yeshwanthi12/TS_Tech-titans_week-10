@@ -1,0 +1,100 @@
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.*;
+
+//@WebServlet("/AuthServlet")
+public class AuthServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+	HashMap<String, String> check = new HashMap<String, String>();
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		check.put("mahitha", "mah");
+		check.put("yashu", "yas");
+		check.put("chan", "sul");
+		
+		String user = request.getParameter("nam");
+		String pass = request.getParameter("pass");
+		response.setContentType("text/html");
+		PrintWriter writer = response.getWriter();
+		int count = 0;
+
+		Iterator<Map.Entry<String, String>> iter = check.entrySet().iterator();
+		while (iter.hasNext()) {
+			Map.Entry<String, String> entry = iter.next();
+			if (user.equals(entry.getKey()) && pass.equals(entry.getValue())) {
+				
+				count++;
+			}
+		}
+		if (count > 0) {
+			writer.print("<p style=\"color:green; font-size:30px;\">Name/Password Match</p>");
+		} else {
+			writer.print("<p style=\"color:red; font-size:30px;\">Name/Password Does Not Match</p>");
+		}
+		// doGet(request, response);
+	}
+
+}
+
+
+
+
+
+
+
+
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
+  <display-name>assignment1</display-name>
+  <servlet>
+  <servlet-name>servlet1</servlet-name>
+  <servlet-class>AuthServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  <servlet-name>servlet1</servlet-name>
+  <url-pattern>/hello</url-pattern>
+  </servlet-mapping>
+</web-app>
+
+
+
+
+
+
+<html>
+<head>
+
+<body>
+<form action="hello" method="post">
+<table>
+<tr>
+<td>Name</td>
+<td><input type="text" name="nam"/></td>
+</tr>
+<tr>
+<td>Password</td>
+<td><input type="password" name="pass"/></td>
+</tr>
+<tr>
+<td colspan="2" align="center">
+<input type="submit" value="submit"></td>
+</tr>
+</table>
+</form>
+</body>
+</html>

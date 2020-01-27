@@ -1,0 +1,108 @@
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.*;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+
+public class LoginServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+   
+	//protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+	//}
+
+	
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		try{
+			String userName = request.getParameter("name");
+			String Password = request.getParameter("password");
+			response.setContentType("text/html");
+			PrintWriter writer = response.getWriter();
+			
+			
+			Class.forName("com.mysql.cj.jdbc.Driver");  
+			Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/mahitha","root","sravan143");   
+			PreparedStatement stmt=con.prepareStatement("select * from names where name=? and password=?"); 
+			stmt.setString(1,userName);
+			stmt.setString(2,Password);
+			ResultSet rs=stmt.executeQuery();
+			
+			if (rs.next()==true) {
+				writer.print("<p style=\"color:green; font-size:20px;\">Name/Password Match</p>");
+				
+				
+			} else {
+				writer.print("<p style=\"color:red; font-size:20px;\">Name/Password Does Not Match</p>");
+				
+			}
+		}
+			
+			catch(Exception e)
+			{
+				System.out.println(e);
+			}
+			
+			}  
+		
+	}
+
+
+
+
+
+
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
+  <display-name>assignment1b</display-name>
+  <servlet>
+    <servlet-name>servlet1</servlet-name>
+    <servlet-class>LoginServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>servlet1</servlet-name>
+    <url-pattern>/hello</url-pattern>
+  </servlet-mapping>
+</web-app>
+
+
+
+
+
+
+
+
+
+
+<html>
+<head>
+
+<body>
+<form action="hello" method="post">
+<table>
+<tr>
+<td>Name</td>
+<td><input type="text" name="name"/></td>
+</tr>
+<tr>
+<td>Password</td>
+<td><input type="password" name="password"/></td>
+</tr>
+<tr>
+<td colspan="2" align="center">
+<input type="submit" value="submit"></td>
+</tr>
+</table>
+</form>
+</body>
+</html>
